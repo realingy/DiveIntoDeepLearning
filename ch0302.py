@@ -82,6 +82,9 @@ for epoch in range(num_epochs):
         train_l = loss(net(features, w, b), labels)
         print(f'epoch {epoch + 1}, loss {float(train_l.mean()):f}')
 
+# w.reshape(true_w.shape)
 print("true w: \n", true_w, "\n fit w: \n", w)
-print("true w shape: ", true_w.shape, ", fit w shape: ", w.shape)
+# print("true w shape: ", true_w.shape, ", fit w shape: ", w.shape)
 print("true b: ", true_b, ", fit b: ", b)
+print('w的估计误差: ', true_w - w.reshape(true_w.shape))
+print('b的估计误差: ', true_b - b)
