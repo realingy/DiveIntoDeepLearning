@@ -34,18 +34,15 @@ VOC_COLORMAP = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0],
                 [0, 64, 0], [128, 64, 0], [0, 192, 0], [128, 192, 0],
                 [0, 64, 128]]
 
-
 # ###################### 3.2 ############################
 def set_figsize(figsize = (3.5, 2.5)):
     use_svg_display()
     # 设置图的尺寸
     plt.rcParams['figure.figsize'] = figsize
 
-
 def use_svg_display():
     """Use svg format to display plot in jupyter"""
     display.set_matplotlib_formats('svg')
-
 
 def data_iter(batch_size, features, labels):
     num_examples = len(features)
@@ -55,15 +52,12 @@ def data_iter(batch_size, features, labels):
         j = torch.LongTensor(indices[i: min(i + batch_size, num_examples)])  # 最后一次可能不足一个batch
         yield features.index_select(0, j), labels.index_select(0, j)
 
-
 def linreg(X, w, b):
     return torch.mm(X, w) + b
-
 
 def squared_loss(y_hat, y):
     # 注意这里返回的是向量, 另外, pytorch里的MSELoss并没有除以 2
     return ((y_hat - y.view(y_hat.size())) ** 2) / 2
-
 
 def sgd(params, lr, batch_size):
     # 为了和原书保持一致，这里除以了batch_size，但是应该是不用除的，因为一般用PyTorch计算loss时就默认已经
@@ -71,13 +65,11 @@ def sgd(params, lr, batch_size):
     for param in params:
         param.data -= lr * param.grad / batch_size  # 注意这里更改param时用的param.data
 
-
 # ########################### 3.5 #############################
 def get_fashion_mnist_labels(labels):
     text_labels = ['t-shirt', 'trouser', 'pullover', 'dress', 'coat',
                    'sandal', 'shirt', 'sneaker', 'bag', 'ankle boot']
     return [text_labels[int(i)] for i in labels]
-
 
 def show_fashion_mnist(images, labels):
     use_svg_display()
@@ -89,7 +81,6 @@ def show_fashion_mnist(images, labels):
         f.axes.get_xaxis().set_visible(False)
         f.axes.get_yaxis().set_visible(False)
     # plt.show()
-
 
 # 5.6 修改
 # def load_data_fashion_mnist(batch_size, root='~/Datasets/FashionMNIST'):
@@ -106,7 +97,6 @@ def show_fashion_mnist(images, labels):
 
 #     return train_iter, test_iter
 
-
 # ########################### 3.6  ###############################
 # (3.13节修改)
 # def evaluate_accuracy(data_iter, net):
@@ -115,7 +105,6 @@ def show_fashion_mnist(images, labels):
 #         acc_sum += (net(X).argmax(dim=1) == y).float().sum().item()
 #         n += y.shape[0]
 #     return acc_sum / n
-
 
 def train_ch3(net, train_iter, test_iter, loss, num_epochs, batch_size,
               params = None, lr = None, optimizer = None):
@@ -145,7 +134,6 @@ def train_ch3(net, train_iter, test_iter, loss, num_epochs, batch_size,
         print('epoch %d, loss %.4f, train acc %.3f, test acc %.3f'
               % (epoch + 1, train_l_sum / n, train_acc_sum / n, test_acc))
 
-
 # ########################### 3.7 #####################################3
 class FlattenLayer(torch.nn.Module):
     def __init__(self):
@@ -153,7 +141,6 @@ class FlattenLayer(torch.nn.Module):
 
     def forward(self, x):  # x shape: (batch, *, *, ...)
         return x.view(x.shape[0], -1)
-
 
 # ########################### 3.11 ###############################
 def semilogy(x_vals, y_vals, x_label, y_label, x2_vals = None, y2_vals = None,

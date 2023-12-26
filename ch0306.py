@@ -2,12 +2,13 @@ import torch
 import torchvision
 import numpy as np
 import sys
-# import d2lzh_pytorch as d2l
+import d2lzh_pytorch as d2l
 
 # print(torch.__version__)
 # print(torchvision.__version__)
+
 batch_size = 256
-train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
+train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size, root='./data_mnist')
 num_inputs = 784
 num_outputs = 10
 
@@ -16,7 +17,6 @@ b = torch.zeros(num_outputs, dtype = torch.float)
 W.requires_grad_(requires_grad = True)
 b.requires_grad_(requires_grad = True)
 
-
 # print(b)
 
 def softmax(X):
@@ -24,9 +24,9 @@ def softmax(X):
     partition = X_exp.sum(dim = 1, keepdim = True)
     return X_exp / partition  # 广播机制
 
-# X = torch.rand((2, 5))
-# X_prob = softmax(X)
-# print(X_prob, X_prob.sum(dim = 1))
+X = torch.rand((2, 5))
+X_prob = softmax(X)
+print("0000: ", X_prob, X_prob.sum(dim = 1))
 
 def net(X):
     return softmax(torch.mm(X.view((-1, num_inputs)), W) + b)
@@ -34,15 +34,17 @@ def net(X):
 y_hat = torch.tensor([[0.1, 0.3, 0.6], [0.3, 0.2, 0.5]])
 y = torch.LongTensor([0, 2])
 
-# print(y_hat.gather(1, y.view(-1, 1)))
+print("1111: ", y_hat.gather(1, y.view(-1, 1)))
 
 def cross_entropy(y_hat, y):
     return -torch.log(y_hat.gather(1, y.view(-1, 1)))
 
+print("2222: ", cross_entropy(y_hat, y))
+
 def accuracy(y_hat, y):
     return (y_hat.argmax(dim = 1) == y).float().mean().item()
 
-# print(accuracy(y_hat, y))
+print("3333: ", accuracy(y_hat, y))
 
 def evaluate_accuracy(data_iter, net):
     acc_num, n = 0.0, 0
@@ -51,7 +53,7 @@ def evaluate_accuracy(data_iter, net):
         n += y.shape[0]
     return acc_num / n
 
-# print(evaluate_accuracy(test_iter, net))
+print("4444: ", evaluate_accuracy(test_iter, net))
 
 num_epochs, lr = 5, 0.1
 
@@ -80,3 +82,14 @@ def train_ch3(net, train_iter, test_iter, loss, num_epochs, batch_size, params =
             epoch + 1, train_l_sum / n, train_acc_sum / n, test_acc))
 
 train_ch3(net, train_iter, test_iter, cross_entropy, num_epochs, batch_size, [W, b], lr)
+
+def predict_ch3(net, test_iter, n=6): #@save
+    """预测标签（定义见第3章） """
+    for X, y in test_iter:
+        break
+    trues = d2l.get_fashion_mnist_labels(y)
+    preds = d2l.get_fashion_mnist_labels(net(X).argmax(axis=1))
+    titles = [true +'\n' + pred for true, pred in zip(trues, preds)]
+    d2l.show_images(X[0:n].reshape((n, 28, 28)), 1, n, titles=titles[0:n])
+    
+# predict_ch3(net, test_iter)
