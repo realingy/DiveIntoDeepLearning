@@ -173,6 +173,16 @@ def semilogy(x_vals, y_vals, x_label, y_label, x2_vals = None, y2_vals = None,
 #         n += y.shape[0]
 #     return acc_sum / n
 
+# ########################### 4.1 #########################
+def plot(x, y, label_x='x', label_y='y', label='', title='', figsize=(8, 4)):
+    plt.figure(figsize=figsize)
+    plt.plot(x, y, label=label)
+    plt.legend()
+    plt.xlabel(label_x)
+    plt.ylabel(label_y)
+    plt.title(title)
+    plt.grid(True)
+    plt.show()
 
 # ########################### 5.1 #########################
 def corr2d(X, K):

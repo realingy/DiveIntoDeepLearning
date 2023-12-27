@@ -6,7 +6,6 @@ import sys
 import d2lzh_pytorch as d2l
 
 batch_size = 256
-# train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
 train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size, root='./data_mnist')
 
 num_inputs, num_outputs = 784, 10

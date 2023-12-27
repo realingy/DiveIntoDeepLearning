@@ -47,13 +47,15 @@ a + X, (a * X).shape
 # 可以对任意张量进行的一个有用的操作是计算其元素的和
 x = torch.arange(4, dtype=torch.float32)
 x, x.sum()
-A.shape, A.sum()
+print("000 A shape: ", A.shape, "; A sum: ", A.sum())
 
 # 求和所有行的元素来降维（轴0）
 A_sum_axis0 = A.sum(axis=0)
+print("000 ==> A_sum_ax0 shape: ", A_sum_axis0.shape)
 A_sum_axis0, A_sum_axis0.shape
 # 指定axis=1将通过汇总所有列的元素降维（轴1）
 A_sum_axis1 = A.sum(axis=1)
+print("111 ==> A_sum_ax1 shape: ", A_sum_axis1.shape)
 A_sum_axis1, A_sum_axis1.shape
 # 沿着行和列对矩阵求和，等价于对矩阵的所有元素进行求和
 A.sum(axis=[0, 1]) # 结果和A.sum()相同
